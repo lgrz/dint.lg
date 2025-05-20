@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iterator>
 #include <cstdint>
+#include <span>
 
 #include "platform.h"
 #include "io.h"
@@ -12,21 +13,8 @@ class PostingsFormat {
   public:
     using posting_type = uint32_t;
 
-    struct Sequence {
-      constexpr Sequence() = default;
-
-      constexpr Sequence(posting_type const* begin, posting_type const* end)
-        : m_begin(begin)
-        , m_end(end)
-      {
-      }
-
-      posting_type const* m_begin = nullptr;
-      posting_type const* m_end = nullptr;
-    };
-
     struct Iterator {
-      using value_type = Sequence;
+      using value_type = std::span<const posting_type>;
       using iterator_category = std::forward_iterator_tag;
 
       constexpr bool operator==(Iterator const& other) const
@@ -69,30 +57,28 @@ class PostingsFormat {
         }
 
         size_t len = 0;
-        size_t index = m_index;
+        size_t offset = m_index;
 
-        len = m_container->m_data[index++];
-        if (0 == len) {
-          std::cerr << "TODO: handle zero length entries...\n";
-          std::exit(EXIT_FAILURE);
-        }
+        // TODO: remove zero-length check but only after testing all (test)
+        //       inverted files for non-existence.
+        do {
+          len = m_container->m_data[offset++];
+        } while(0 == len); // skip zero-length entries
 
-        if (len > size_t(m_container->m_size - index)) {
-          std::cerr << "TODO: handle truncated files...\n";
-          std::exit(EXIT_FAILURE);
-        }
+        // TODO: remove file truncation check but only after testing all (test)
+        //       inverted files for non-existence.
+        len = std::min(len, size_t(m_container->m_size - offset));
         
-        posting_type const* begin = &m_container->m_data[index];
-        posting_type const* end = begin + len;
+        posting_type const* begin = &m_container->m_data[offset];
 
-        m_next = m_index + len;
-        m_entry = Sequence();
+        m_next = offset + len;
+        m_entry = value_type(begin, len);
       }
 
       PostingsFormat const* m_container = nullptr;
       size_t m_index = 0;
       size_t m_next = 0;
-      Sequence m_entry;
+      value_type m_entry;
     };
 
     constexpr Iterator begin() const
