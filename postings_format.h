@@ -5,13 +5,14 @@
 #include <iterator>
 #include <cstdint>
 #include <span>
+#include <sys/mman.h>
 
 #include "platform.h"
-#include "io.h"
 
 class PostingsFormat {
   public:
     using posting_type = uint32_t;
+    using sequence = std::span<const posting_type>;
 
     struct Iterator {
       using value_type = std::span<const posting_type>;
@@ -41,15 +42,6 @@ class PostingsFormat {
         return m_entry;
       }
 
-      constexpr Iterator() = default;
-
-      constexpr Iterator(PostingsFormat const* container, size_t index)
-        : m_container(container)
-        , m_index(index)
-      {
-        next();
-      }
-
       constexpr void next()
       {
         if (m_index == m_container->m_size) {
@@ -75,6 +67,15 @@ class PostingsFormat {
         m_entry = value_type(begin, len);
       }
 
+      constexpr Iterator(PostingsFormat const* container, size_t index)
+        : m_container(container)
+        , m_index(index)
+      {
+        next();
+      }
+
+      constexpr Iterator() = default;
+
       PostingsFormat const* m_container = nullptr;
       size_t m_index = 0;
       size_t m_next = 0;
@@ -99,8 +100,9 @@ class PostingsFormat {
       m_size = length / sizeof(posting_type);
     }
 
+    constexpr PostingsFormat() = default;
+
 private:
     posting_type const* m_data = nullptr;
     size_t m_size = 0;
 };
-

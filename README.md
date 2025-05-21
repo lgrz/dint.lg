@@ -1,5 +1,5 @@
 # Dictionary-based compression for inverted indexes
 
-An educational implementation of [dint][dintjermp].
+An implementation of [dint][dintjermp] for education purposes.
 
 [dintjermp]: https://github.com/jermp/dint
