@@ -1,0 +1,15 @@
+---
+#
+Checks: >
+  -*,
+  bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  concurrency-*,
+  misc-*,
+  performance-*,
+  portability-*,
+  readability-*,
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+FormatStyle: none
