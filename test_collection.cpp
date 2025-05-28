@@ -27,27 +27,27 @@ TEST_CASE("mmap inverted index files", "[MappedFile]") {
 }
 
 TEST_CASE("postings format and header ", "[PostingsFormat]") {
-  MappedFile f(s_testcollection_docs);
-  PostingsFormat p(f.data(), f.size());
-  auto first = *p.begin();
+  MappedFile mmfile(s_testcollection_docs);
+  PostingsFormat pfmt(mmfile.data(), mmfile.size());
+  auto first = *pfmt.begin();
 
-  REQUIRE((f.size() / sizeof(PostingsFormat::posting_type)) == p.size());
+  REQUIRE((mmfile.size() / sizeof(PostingsFormat::posting_type)) == pfmt.size());
   REQUIRE(1 == first.size());
   REQUIRE(10000 == *first.begin());
 }
 
 TEST_CASE("integer sequence iterator", "[PostingsFormat]") {
   MappedFile docs(s_testcollection_docs);
-  PostingsFormat pf(docs.data(), docs.size());
+  PostingsFormat pfmt(docs.data(), docs.size());
 
   PostingsFormat::posting_type sum = 0;
   std::size_t zero_count = 0;
   std::size_t record_count = 0;
 
-  for (auto const& record : pf) {
+  for (auto const& record : pfmt) {
     ++record_count;
     sum += record.size();
-    if (!record.size()) {
+    if (0 == record.size()) {
       ++zero_count;
     }
   }
@@ -58,9 +58,9 @@ TEST_CASE("integer sequence iterator", "[PostingsFormat]") {
 }
 
 TEST_CASE("collection from the index directory", "[Collection]") {
-  dint::FrequencyCollection c(s_testcollection_path);
+  dint::FrequencyCollection freqcoll(s_testcollection_path);
 
-  REQUIRE(10000 == c.num_docs());
+  REQUIRE(10000 == freqcoll.num_docs());
 }
 
 }
