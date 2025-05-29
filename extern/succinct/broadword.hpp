@@ -1,6 +1,7 @@
 #pragma once
 
-#include <stdint.h>
+#include <cassert>
+#include <cstdint>
 #include "intrinsics.hpp"
 #include "tables.hpp"
 
