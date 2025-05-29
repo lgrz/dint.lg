@@ -5,8 +5,10 @@
 
 #include "succinct/bit_vector.hpp"
 
+namespace dint { namespace test {
 namespace {
-std::vector<bool> random_bit_vector(size_t n = 10000, double density = 0.5) // NOLINT
+
+std::vector<bool> random_bit_vector(size_t n = 10000, double density = 0.5)
 {
   std::random_device gen;
   std::default_random_engine dre(gen());
@@ -20,10 +22,8 @@ std::vector<bool> random_bit_vector(size_t n = 10000, double density = 0.5) // N
 
   return bits;
 }
-}
 
-namespace dint {
-namespace test {
+} // namespace
 
 TEST_CASE("bit vectors from random bool vectors", "[succinct]") {
   std::vector<bool> bitvec = random_bit_vector();
@@ -42,5 +42,4 @@ TEST_CASE("bit vectors from random bool vectors", "[succinct]") {
   }
 }
 
-}
-}
+} }

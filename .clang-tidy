@@ -10,6 +10,12 @@ Checks: >
   performance-*,
   portability-*,
   readability-*,
+  -bugprone-easily-swappable-parameters,
+  -misc-non-private-member-variables-in-classes,
+  -misc-use-anonymous-namespace,
+  -readability-identifier-length,
+  -readability-implicit-bool-conversion,
+  -readability-magic-numbers,
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 FormatStyle: none
