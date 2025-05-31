@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.6...3.25)
 project(SUCCINCT)
 
 option(SUCCINCT_USE_LIBCXX
