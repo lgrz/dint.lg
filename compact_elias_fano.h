@@ -183,7 +183,7 @@ public:
     assert(position <= m_offset.n);
 
     if (m_position == position) {
-      return get();
+      return value();
     }
 
     uint64_t skip = position - m_position;
@@ -202,7 +202,7 @@ public:
                   | read_low();
         m_high_enumerator = he;
       }
-      return get();
+      return value();
     }
 
     return slow_move(position);
@@ -219,13 +219,13 @@ public:
       m_value = m_offset.universe;
     }
 
-    return get();
+    return value();
   }
 
   constexpr value_type next_geq(uint64_t lower_bound)
   {
     if (lower_bound == m_value) {
-      return get();
+      return value();
     }
 
     uint64_t high_lower_bound = lower_bound >> m_offset.low_bits;
@@ -246,7 +246,7 @@ public:
         }
       } while(val < lower_bound);
       m_value = val;
-      return get();
+      return value();
     }
 
     return slow_next_geq(lower_bound);
@@ -304,7 +304,7 @@ private:
     if (position == size()) [[unlikely]] {
       m_position = position;
       m_value = m_offset.universe;
-      return get();
+      return value();
     }
 
     uint64_t skip = position - m_position;
@@ -324,7 +324,7 @@ private:
     m_position = position;
     m_value = read_next();
 
-    return get();
+    return value();
   }
 
   constexpr value_type slow_next_geq(uint64_t lower_bound)
@@ -412,7 +412,7 @@ private:
   }
 
   // was `value()` in ds2i
-  constexpr value_type get() const
+  constexpr value_type value() const
   {
     return value_type(m_position, m_value);
   }
