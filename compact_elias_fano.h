@@ -102,14 +102,16 @@ struct CompactEliasFano
     bvb.zero_extend(ef_offset.end - base);
 
     uint64_t offset;
-    // helper to set to set "0" pointers in the for loop below
+    // helper for the loop below
     auto fn_set_pointer0 = [&ef_offset, &offset, &bvb]
                            (uint64_t begin, // TODO: name clash with parent scope
                             uint64_t end,
                             uint64_t rank_end) {
       // TODO: This function captures `offset` from the parent scope and
-      //       changes its state and so on. But, in the loop below the `offset`
-      //       variable is set prior to this function getting called.
+      //       changes its state and so on. But, in the outer scope (outside
+      //       this function) in the for loop below (outer scope), note that
+      //       `offset` is mutated prior to this function getting called and
+      //       mutating `offset` further. Make it all easer to follow?
       uint64_t zeros_begin = begin - rank_end;
       uint64_t zeros_end = end - rank_end;
 
