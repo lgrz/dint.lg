@@ -144,7 +144,7 @@ struct CompactEliasFano
 
       bvb.set(ef_offset.high_bits_offset + high, 1);
       // TODO: `offset` related to `fn_set_pointer0`
-      offset = ef_offset.low_bits_offset + i + ef_offset.low_bits;
+      offset = ef_offset.low_bits_offset + i * ef_offset.low_bits;
       assert(offset + ef_offset.low_bits <= ef_offset.end);
       // TODO: `bvb` related to `fn_set_pointer0`
       bvb.set_bits(offset, low, ef_offset.low_bits);

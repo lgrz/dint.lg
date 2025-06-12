@@ -4,7 +4,6 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <cstdint>
 #include <random>
-#include <ranges>
 #include <vector>
 #include "compact_elias_fano.h"
 #include "succinct/bit_vector.hpp"
