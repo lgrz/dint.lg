@@ -15,10 +15,6 @@ list(APPEND CMAKE_MODULE_PATH "${DINT_SOURCE_DIR}/cmake")
 include(common)
 include(CPM)
 CPMAddPackage("gh:catchorg/Catch2@3.8.1")
-# CPMAddPackage(
-#     URI "gh:ot/succinct#669eebbdcaa0562028a22cb7c877e512e4f1210b"
-#     PATCHES "cmake/succinct.patch"
-# )
 add_subdirectory(extern/succinct)
 
 add_executable(test_collection test_collection.cpp)
