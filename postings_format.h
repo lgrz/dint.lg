@@ -32,12 +32,12 @@ class PostingsFormat {
         return *this;
       }
 
-      ALWAYS_INLINE constexpr value_type const* operator->() const
+      DINT_ALWAYS_INLINE constexpr value_type const* operator->() const
       {
         return &m_entry;
       }
 
-      ALWAYS_INLINE constexpr value_type const& operator*() const
+      DINT_ALWAYS_INLINE constexpr value_type const& operator*() const
       {
         return m_entry;
       }
